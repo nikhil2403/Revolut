@@ -1,6 +1,8 @@
 package services;
 
 import domain.Account;
+
+import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public interface UserService {
@@ -9,4 +11,6 @@ public interface UserService {
 
     AtomicInteger getAccountBalance(long id);
     void updateBalance(long id , AtomicInteger balance);
+
+    Collection<Account> getAll();
 }

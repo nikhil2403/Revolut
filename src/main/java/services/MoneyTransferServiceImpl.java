@@ -37,11 +37,7 @@ public class MoneyTransferServiceImpl implements MoneytransferService {
                 throw new MoneyTransferException("INVALID OPERATION TYPE");
         }
             //submit incoming request to custom threadpool executor
-        return CompletableFuture.runAsync(r,executor).exceptionally(e-> {
-            //log the error. In production -> logger
-             System.out.println(e);
-             return null;
-        });
+        return CompletableFuture.runAsync(r,executor);
 
     }
 
@@ -50,7 +46,7 @@ public class MoneyTransferServiceImpl implements MoneytransferService {
       Account from =  userService.getAccount(fromId);
       Account to   =  userService.getAccount(toId);
 
-        ReentrantLock lock = from.getReentrantLock();
+        ReentrantLock lock = from.getLock();
 
         while(true) {
             try {
@@ -67,9 +63,9 @@ public class MoneyTransferServiceImpl implements MoneytransferService {
                 from.setBalance(userService.getAccountBalance(from.getId()));
                 to.setBalance(userService.getAccountBalance(to.getId()));
                 if(!isSufficientBalance(from, amount)){
-                    break;
+                    throw new MoneyTransferException("Insufficient Balance");
                 }
-                ReentrantLock toLock = to.getReentrantLock();
+                ReentrantLock toLock = to.getLock();
                 boolean isLocked = toLock.tryLock();
                 if(!isLocked) {
                     continue;

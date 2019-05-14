@@ -3,6 +3,7 @@ package repositories;
 import domain.Account;
 
 import javax.inject.Singleton;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -40,5 +41,10 @@ public class InMemoryRepository implements UserRepository  {
     @Override
     public Account getAccount(long id) {
         return users.get(id);
+    }
+
+    @Override
+    public Collection<Account> getAll() {
+        return users.values();
     }
 }

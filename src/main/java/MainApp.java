@@ -15,7 +15,11 @@ public class MainApp {
         Javalin app = Javalin.create().start(7000);
         app.routes(() -> {
             path("user", () -> {
+                get(ctx-> userController.getOne(ctx));
                 post(ctx-> userController.postHandle(ctx));
+            });
+            path("usersall", () -> {
+                get(ctx-> userController.getAll(ctx));
             });
         });
         app.error(400,(ctx)->ctx.json("bad request") );

@@ -5,7 +5,7 @@ import exception.MoneyTransferException;
 import repositories.UserRepository;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.Map;
+import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Singleton
@@ -36,5 +36,10 @@ public class UserServiceImpl implements UserService {
     public void updateBalance(long id, AtomicInteger balance) {
         userRepository.updateBalance(id,balance);
 
+    }
+
+    @Override
+    public Collection<Account> getAll() {
+        return userRepository.getAll();
     }
 }

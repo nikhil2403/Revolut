@@ -1,5 +1,7 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -16,11 +18,13 @@ public class Account {
         this.id = id;
         this.balance = balance;
     }
-    public ReentrantLock getReentrantLock() {
+    @JsonIgnore
+    public ReentrantLock getLock() {
         return reentrantLock;
     }
 
-    ReentrantLock reentrantLock = new ReentrantLock();
+    @JsonIgnore
+    private ReentrantLock reentrantLock = new ReentrantLock();
 
     public String getName() {
         return name;
